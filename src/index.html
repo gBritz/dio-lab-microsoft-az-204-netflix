@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        .movie-card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 10px;
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        .movie-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            max-width: 500px;
+        }
+        .modal-content video {
+            width: 100%;
+            border-radius: 8px;
+            display: none;
+        }
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .loader {
+            display: none;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Filmes</h1>
+    <div class="loader" id="movies-loader"></div>
+    <div class="container" id="movies-list"></div>
+    
+    <div class="modal" id="movie-modal">
+        <div class="modal-content">
+            <div class="loader" id="movie-loader"></div>
+            <h2 id="movie-title"></h2>
+            <p id="movie-year"></p>
+            <video id="movie-video" controls></video>
+            <br>
+            <button class="close-btn" onclick="closeModal()">Fechar</button>
+        </div>
+    </div>
+    
+    <script>
+        async function fetchMovies() {
+            document.getElementById('movies-loader').style.display = 'block';
+            try {
+                const response = await fetch('http://localhost:7100/api/movies');
+                const movies = await response.json();
+                displayMovies(movies);
+            } catch (error) {
+                console.error('Erro ao buscar filmes:', error);
+            } finally {
+                document.getElementById('movies-loader').style.display = 'none';
+            }
+        }
+
+        function displayMovies(movies) {
+            const container = document.getElementById('movies-list');
+            container.innerHTML = '';
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.innerHTML = `
+                    <img src="${movie.Thumb}" alt="${movie.Title}">
+                    <h3>${movie.Title} (${movie.Year})</h3>
+                `;
+                movieCard.onclick = () => fetchMovieDetails(movie.Id);
+                container.appendChild(movieCard);
+            });
+        }
+
+        async function fetchMovieDetails(id) {
+            document.getElementById('movie-loader').style.display = 'block';
+            document.getElementById('movie-video').style.display = 'none';
+            document.getElementById('movie-title').innerText = '';
+            document.getElementById('movie-year').innerText = '';
+            document.getElementById('movie-video').src = '';
+            document.getElementById('movie-modal').style.display = 'flex';
+            try {
+                const response = await fetch(`http://localhost:7254/api/detail?id=${id}`);
+                const movie = await response.json();
+                showMovieDetails(movie);
+            } catch (error) {
+                console.error('Erro ao buscar detalhes do filme:', error);
+            } finally {
+                document.getElementById('movie-loader').style.display = 'none';
+            }
+        }
+
+        function showMovieDetails(movie) {
+            document.getElementById('movie-title').innerText = movie.Title;
+            document.getElementById('movie-year').innerText = `Ano: ${movie.Year}`;
+            const videoElement = document.getElementById('movie-video');
+            videoElement.src = movie.Video;
+            videoElement.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('movie-modal').style.display = 'none';
+        }
+
+        fetchMovies();
+    </script>
+</body>
+</html>
