@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fnPostDataStorage", "fnPostDataStorage/fnPostDataStorage.csproj", "{EBE924D0-3578-40F7-B3AE-AC76F9EE42AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fnPostDataStorage", "fnPostDataStorage\fnPostDataStorage.csproj", "{EBE924D0-3578-40F7-B3AE-AC76F9EE42AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fnPostDatabase", "fnPostDatabase\fnPostDatabase.csproj", "{FD8C5B8F-BBDF-43B8-BEDB-9C78794A4E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EBE924D0-3578-40F7-B3AE-AC76F9EE42AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBE924D0-3578-40F7-B3AE-AC76F9EE42AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBE924D0-3578-40F7-B3AE-AC76F9EE42AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD8C5B8F-BBDF-43B8-BEDB-9C78794A4E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD8C5B8F-BBDF-43B8-BEDB-9C78794A4E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD8C5B8F-BBDF-43B8-BEDB-9C78794A4E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD8C5B8F-BBDF-43B8-BEDB-9C78794A4E44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
